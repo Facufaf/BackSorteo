@@ -4,8 +4,8 @@ var con = require("./conexion");
 
 router.post('/', function(req, res, next) {
     const sorteo=req.body;
-    const sql="INSERT INTO sorteo(nombre,apellido,contacto)VALUES(?,?,?)";
-    con.query(sql, [sorteo.nombre, sorteo.apellido, sorteo.contacto], function(error, result) {
+    const sql="INSERT INTO sorteo(nombre,apellido,contacto,dni)VALUES(?,?,?,?)";
+    con.query(sql, [sorteo.nombre, sorteo.apellido, sorteo.contacto, sorteo.dni], function(error, result) {
         if (error){
             res.json({
                 status:"error" ,
@@ -70,5 +70,25 @@ router.delete('/', function(req, res, next) {
         }
     })
 });
+router.get("/ganador", function(req, res, next){
+    const {authorization}= req.headers;
+    console.log(authorization);
+    const sql='SELECT nombre FROM sorteo ORDER BY RAND() LIMIT 1;'
+    con.query(sql, function(error, result){
+    
+        if (error){
+            res.json({
+                status:"error" ,
+                error
+            })
+        } else {
+            res.json({
+                status:"ok",
+                sorteo:result
+            });
+        }
+    })
+    
+})
 
   module.exports = router;
