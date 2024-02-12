@@ -89,6 +89,24 @@ router.get("/ganador", function(req, res, next){
         }
     })
     
-})
+});
+
+router.put('/:sorteo_id', function(req, res, next) {
+    const sorteo_id = req.params.sorteo_id;
+    const sorteo = req.body;
+    const sql = "UPDATE sorteo SET nombre=?, apellido=?, contacto=?, dni=? WHERE sorteo_id=?";
+    con.query(sql, [sorteo.nombre, sorteo.apellido, sorteo.contacto, sorteo.dni, sorteo_id], function(error, result) {
+            if (error) {
+            res.json({
+                status: "error",
+                error
+            })
+        } else {
+            res.json({
+                status: "ok",
+            });
+        }
+    })
+});
 
   module.exports = router;
