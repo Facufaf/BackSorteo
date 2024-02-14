@@ -73,7 +73,7 @@ router.delete('/', function(req, res, next) {
 router.get("/ganador", function(req, res, next){
     const {authorization}= req.headers;
     console.log(authorization);
-    const sql='SELECT nombre FROM sorteo ORDER BY RAND() LIMIT 1;'
+    const sql='SELECT nombre, apellido FROM sorteo ORDER BY RAND() LIMIT 1;'
     con.query(sql, function(error, result){
     
         if (error){
@@ -104,6 +104,25 @@ router.put('/:sorteo_id', function(req, res, next) {
         } else {
             res.json({
                 status: "ok",
+            });
+        }
+    })
+});
+router.get('/:sorteo_id', function(req, res, next){
+    const {authorization}= req.headers;
+    console.log(authorization);
+    const sql='SELECT* FROM sorteo where sorteo_id=' + req.params.sorteo_id
+    con.query(sql, function(error, result){
+        
+        if (error){
+            res.json({
+                status:"error" ,
+                error
+            })
+        } else {
+            res.json({
+                status:"ok",
+                sorteo:result
             });
         }
     })
