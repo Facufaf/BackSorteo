@@ -3,9 +3,9 @@ var router = express.Router();
 var con = require("./conexion");
 
   router.post('/', function(req, res, next) {
-    const sorteo=req.body;
-    const sql="INSERT INTO sorteo(nombre,apellido,contacto,dni)VALUES(?,?,?,?)";
-    con.query(sql, [sorteo.nombre, sorteo.apellido, sorteo.contacto, sorteo.dni], function(error, result) {
+    const premios=req.body;
+    const sql="INSERT INTO premios(nombre)VALUES(?)";
+    con.query(sql, [premios.nombre], function(error, result) {
         if (error){
             res.json({
                 status:"error" ,
@@ -23,7 +23,7 @@ var con = require("./conexion");
   router.get('/', function(req, res, next){
     const {authorization}= req.headers;
     console.log(authorization);
-    const sql='SELECT* FROM sorteo'
+    const sql='SELECT* FROM premios'
     con.query(sql, function(error, result){
     
         if (error){
@@ -39,10 +39,10 @@ var con = require("./conexion");
         }
     })
 });
-router.delete('/:sorteo_id', function(req, res, next) {
-    const sorteo_id = req.params.sorteo_id;
-    const sql = "DELETE FROM sorteo WHERE sorteo_id = ?";
-    con.query(sql, [sorteo_id], function(error, result) {
+router.delete('/:premios_id', function(req, res, next) {
+    const premios_id = req.params.premios_id;
+    const sql = "DELETE FROM sorteo WHERE premios_id = ?";
+    con.query(sql, [premios_id], function(error, result) {
         if (error){
             res.json({
                 status:"error" ,
@@ -56,7 +56,7 @@ router.delete('/:sorteo_id', function(req, res, next) {
     })
 });
 router.delete('/', function(req, res, next) {
-    const sql = "DELETE FROM sorteo";
+    const sql = "DELETE FROM premios";
     con.query(sql, function(error, result) {
         if (error){
             res.json({
@@ -70,48 +70,12 @@ router.delete('/', function(req, res, next) {
         }
     })
 });
-router.get("/ganador", function(req, res, next){
-    const {authorization}= req.headers;
-    console.log(authorization);
-    const sql='SELECT nombre, apellido, contacto, dni FROM sorteo ORDER BY RAND() LIMIT 1;'
-    con.query(sql, function(error, result){
-    
-        if (error){
-            res.json({
-                status:"error" ,
-                error
-            })
-        } else {
-            res.json({
-                status:"ok",
-                sorteo:result
-            });
-        }
-    })
-    
-});
 
-router.put('/:sorteo_id', function(req, res, next) {
-    const sorteo_id = req.params.sorteo_id;
-    const sorteo = req.body;
-    const sql = "UPDATE sorteo SET nombre=?, apellido=?, contacto=?, dni=? WHERE sorteo_id=?";
-    con.query(sql, [sorteo.nombre, sorteo.apellido, sorteo.contacto, sorteo.dni, sorteo_id], function(error, result) {
-            if (error) {
-            res.json({
-                status: "error",
-                error
-            })
-        } else {
-            res.json({
-                status: "ok",
-            });
-        }
-    })
-});
-router.get('/:sorteo_id', function(req, res, next){
+
+router.get('/:premios_id', function(req, res, next){
     const {authorization}= req.headers;
     console.log(authorization);
-    const sql='SELECT* FROM sorteo where sorteo_id=' + req.params.sorteo_id
+    const sql='SELECT* FROM sorteo where premios_id=' + req.params.premios_id
     con.query(sql, function(error, result){
         
         if (error){

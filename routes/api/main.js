@@ -1,19 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
-var desarrolladorasRouter = require('./desarrolladoras');
-var generoRouter = require('./genero');
-var usuarioRouter = require('./usuario');
-var plataformaRouter = require('./plataforma');
-var juegosRouter = require('./juegos');
 var sorteoRouter = require('./sorteo');
+var usuariosRouter= require('./usuarios');
+var premiosRouter= require('./premios');
+var ganadoresRouter= require('./ganadores');
 
 router.use("/sorteo", sorteoRouter);
-router.use("/desarrolladoras", desarrolladorasRouter);
-router.use("/genero", generoRouter);
-router.use("/usuario", usuarioRouter);
-router.use("/plataforma", plataformaRouter);
-router.use("/juegos", juegosRouter);
-
+router.use("/usuarios", usuariosRouter);
+router.use("/premios", premiosRouter);
+router.use("/ganadores", ganadoresRouter)
 
 module.exports = router
